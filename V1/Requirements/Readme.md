@@ -8,6 +8,7 @@ HR04 |Calender Template |
 HR05 |Faculty load sheet |
 HR06 |Select multiple input files|
 HR07 |Color codes for initiatives followed|
+HR08 |Append the Current Output to the Previous Output|
 
 ## Low Level Requirements
 |ID|Feature|High Level ID|Status|
@@ -25,7 +26,7 @@ LR07|Available free slots for faculty|HR05|
 
 Feature| V0 Python Implementation | V0 Matlab Implementation|
 |---|---|---|
-Select file from user| Works|
+Select file from user| Works| 
 Output file generated across different computer| Works |
 Excel file generated for one month | Works |
 Validates days in month in input file| Not working|
