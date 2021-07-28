@@ -43,7 +43,7 @@ Provide Dropdown List for user to select Month and Initiative | | Implemented |
 Output file generated across different computer| Implemented |Works only with MATLAB |
 Excel file generated for one month | Implemented | Implemented |
 Validates days in month in input file| Not Available|
-Let User Know the Output File has been Updated | |Implemented |
+Let User Know that the Output File has been Updated Successfully | |Implemented |
 Let User Know if the rows are not Analyzed | | Implemented |
 
 
