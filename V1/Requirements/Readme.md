@@ -39,12 +39,12 @@ LR16|Available free slots for faculty from faculty load sheet|HR05, HR10|
 Feature| V0 Python Implementation | V0 Matlab Implementation|
 |---|---|---|
 Select file from user| Implemented | Implemented |
-Provide Dropdown List for user to select Month and Initiative | | Implemented |
+Provide Dropdown List for user to select Month and Initiative | Not Available | Implemented |
 Output file generated across different computer| Implemented |Works only with MATLAB |
 Excel file generated for one month | Implemented | Implemented |
 Validates days in month in input file| Not Available|
-Let User Know that the Output File has been Updated Successfully | |Implemented |
-Let User Know if the rows are not Analyzed | | Implemented |
+Let User Know that the Output File has been Updated Successfully | Not Available |Implemented |
+Let User Know if the rows are not Analyzed | Not Available | Implemented |
 
 
 
