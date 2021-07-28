@@ -11,32 +11,34 @@ HR07 | Showing Available Open Slots based on faculty and modules | Not Available
 
 
 
-HR06 |Segregation based on initiatives and months|
-HR07 |Color codes for initiatives followed|
-HR08 |Append the Current Output to the Previous Output|
-HR09 |Error correction|
-HR10 |Insights and notifications| 
+
+ 
 HR11 |Let User know that Output has been Successfully Updated |
 
 ## Low Level Requirements
 |ID|Feature|High Level ID| MATLAB Status| Python Status |
 |--|---|---|---|----|
-LR01|Master calender month wise |HR04| Implemented | |
-LR02|Master calender initiative wise|HR04| Implemented | |
-LR03|Master calender appending|HR04| Implemented | | 
-LR04|Master calender course code correction|HR04| Implemented | |
-LR05|Master calender course title correction|HR04| Not Available | |
-LR06|Master calender: Display the dates that were not analysed|HR04| Implemented | |
-LR07|Faculty calender month wise |HR05| Implemented | |
-LR08|Faculty calender initiative wise|HR05| Implemented | |
-LR09|Faculty calender appending|HR05| Implemented | |
-LR10|Faaculty name correction/validation in faculty calender|HR05| Not Available | |
-LR11|Faculty calender: Highlight conflicts (Red highlight/pop-up/Concatenated Numbers) |HR05| Implemented | |
-LR12|Faculty load table month wise |HR06|
-LR13|Faculty load table initiative wise|HR06|
-LR14|Faculty name correction/validation in faculty load sheet|HR09|
-LR15|Faculty load insight : OVERLOAD, UNDERLOAD, OPTIMUM |HR06|
-LR16|Available free slots for faculty from faculty load sheet|HR07|
+LR01|Master Calendar display month wise |HR04| Implemented | |
+LR02|Master Calendar display initiative wise|HR04| Implemented | |
+LR04|Master Calendar: Differentiate Initiatives (Color Codes/Numbers)|HR04| Implemented | |
+LR05|Master Calendar Appending|HR04| Implemented | | 
+LR06|Master Calendar Course code correction|HR04| Implemented | |
+LR07|Master Calendar Course title correction|HR04| Not Available | |
+LR08|Master Calendea: display the dates that were not analysed|HR04| Implemented | |
+LR09|Faculty Calendar display Month wise |HR05| Implemented | |
+LR010|Faculty Calendar display Initiative wise|HR05| Implemented | |
+LR011|Faculty Calendar Appending|HR05| Implemented | |
+LR012|Faculty Calendar: Differentiate Initiatives (Color Codes/Numbers)|HR05| Implemented | |
+LR13|Faculty name correction/validation in faculty calender|HR05| Not Available | |
+LR14|Faculty Calendar: Highlight conflicts (Red highlight/pop-up/Concatenated Numbers) |HR05| Implemented | |
+LR15|Faculty Load Sheet display Month wise |HR06|Implemented | |
+LR16|Faculty Load Sheet display Initiative wise|HR06|Implemented | |
+LR17|Faculty name correction/validation in Faculty Load Sheet|HR06| Not Available | |
+LR18|Faculty Load Sheet: Display Available Slots Faculty wise|HR06| Not Available | | 
+LR18|Faculty load insight : OVERLOAD, UNDERLOAD, OPTIMUM |HR06| Not Available | |
+LR19|Faculty Load Sheet Appending|HR06| Implemented | |
+LR20|Available free slots for faculty from faculty load sheet|HR07| Not Available | |
+LR21 |Let User know that the Output has been Successfully Updated | Implemented | |
 
 
 ## Features Checklist
