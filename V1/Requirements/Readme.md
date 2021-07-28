@@ -10,11 +10,6 @@ HR06 |Faculty load sheet | Implemented | |
 HR07 | Showing Available Open Slots based on faculty and modules | Not Available | | 
 
 
-
-
- 
-HR11 |Let User know that Output has been Successfully Updated |
-
 ## Low Level Requirements
 |ID|Feature|High Level ID| MATLAB Status| Python Status |
 |--|---|---|---|----|
