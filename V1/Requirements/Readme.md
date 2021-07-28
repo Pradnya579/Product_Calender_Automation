@@ -1,11 +1,16 @@
 ## High Level Requirements
 |ID|Feature|Status|
 |---|---|---|
-HR01 |Output file generated across different computer|
-HR02 |Login credentials from web app |
-HR03 |Master Calender |
-HR04 |Faculty calender |
-HR05 |Faculty load sheet |
+HR01 |Output file generated across different computers (windows + linux)|
+HR02 |Login credentials (Modify/View) |
+HR03 |Input Files Based on Different Initiatives and Timelines |
+HR04 |Master Calender |
+HR05 |Faculty calender |
+HR06 |Faculty load sheet |
+HR07 | Showing Available Open Slots based on faculty and modules
+
+
+
 HR06 |Segregation based on initiatives and months|
 HR07 |Color codes for initiatives followed|
 HR08 |Append the Current Output to the Previous Output|
