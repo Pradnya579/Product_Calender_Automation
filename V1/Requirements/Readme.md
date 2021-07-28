@@ -1,5 +1,5 @@
 ## High Level Requirements
-|ID|Feature| MATLAB Status| Python Status |
+|ID|Feature| MATLAB v0 Status| Python v0 Status |
 |---|---|---|----|
 HR01 |Output file generated across different computers (windows + linux)| Not Available | |
 HR02 |Login credentials (Modify/View) | Not Available | |
@@ -11,7 +11,7 @@ HR07 | Showing Available Open Slots based on faculty and modules | Not Available
 
 
 ## Low Level Requirements
-|ID|Feature|High Level ID| MATLAB Status| Python Status |
+|ID|Feature|High Level ID| MATLAB v0 Status| Python v0 Status |
 |--|---|---|---|----|
 LR01|Master Calendar display month wise |HR04| Implemented | |
 LR02|Master Calendar display initiative wise|HR04| Implemented | |
