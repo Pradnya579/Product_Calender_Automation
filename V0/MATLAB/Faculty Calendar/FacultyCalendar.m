@@ -120,8 +120,6 @@ UpASlots = zeros(FacLen+length(FacultyList),31);
 kc=1;
 CheckList = zeros(length(FacultyList),1);
 CheckList1 = zeros(FacLen,1);
-ExMSlots
-ExASlots
 for i=1:FacLen
     for j=1:length(FacultyList)
         if(FacultyDown(i)==FacultyList(j))
@@ -168,9 +166,6 @@ for i=1:length(FacultyList)
         kc = kc+1;
     end
 end
-UpFaculty
-UpMSlots
-UpASlots
 for i=1:kc-1
     writematrix(UpFaculty(i),'FacultyCalendar_Output.xlsx','Sheet',1,'Range',['B',num2str(Range(index*2-1)+i-1)])
     for j=1:12
