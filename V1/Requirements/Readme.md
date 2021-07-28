@@ -21,7 +21,7 @@ LR03|Master calender appending|HR03, HR08|
 LR04|Master calender course code correction|HR03,HR09|
 LR05|Master calender course title correction|HR03,HR09|
 LR06|Master calender dates not analysed|HR03,HR10|
-LR07Faculty calender month wise |HR04,HR06|
+LR07|Faculty calender month wise |HR04,HR06|
 LR08|Fculty calender initiative wise|HR04,HR06|
 LR09|Fculty calender appending|HR04,HR08|
 LR10|Faculty name correction/validation in faculty calender|HR04,HR09|
