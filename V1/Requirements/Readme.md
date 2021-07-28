@@ -45,6 +45,7 @@ Excel file generated for one month | Implemented | Implemented |
 Validates days in month in input file| Not Available|
 Let User Know that the Output File has been Updated Successfully | Not Available |Implemented |
 Let User Know if the rows are not Analyzed | Not Available | Implemented |
+Color Coding for blocking schedule | Implemented | |
 
 
 
