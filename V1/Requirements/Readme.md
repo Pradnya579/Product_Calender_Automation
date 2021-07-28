@@ -38,7 +38,7 @@ LR18|Faculty Load Sheet: Display Available Slots Faculty wise|HR06| Not Availabl
 LR18|Faculty load insight : OVERLOAD, UNDERLOAD, OPTIMUM |HR06| Not Available | |
 LR19|Faculty Load Sheet Appending|HR06| Implemented | |
 LR20|Available free slots for faculty from faculty load sheet|HR07| Not Available | |
-LR21 |Let User know that the Output has been Successfully Updated | Implemented | |
+LR21 |Let User know that the Output has been Successfully Updated |HR05,HR06,HR07|Implemented | |
 
 
 ## Features Checklist
