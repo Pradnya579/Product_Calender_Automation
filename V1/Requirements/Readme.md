@@ -11,6 +11,7 @@ HR07 |Color codes for initiatives followed|
 HR08 |Append the Current Output to the Previous Output|
 HR09 |Error correction|
 HR10 |Insights and notifications| 
+HR11 |Let User know that Output has been Successfully Updated |
 
 ## Low Level Requirements
 |ID|Feature|High Level ID|Status|
@@ -22,9 +23,9 @@ LR04|Master calender course code correction|HR03,HR09|
 LR05|Master calender course title correction|HR03,HR09|
 LR06|Master calender dates not analysed|HR03,HR10|
 LR07|Faculty calender month wise |HR04,HR06|
-LR08|Fculty calender initiative wise|HR04,HR06|
-LR09|Fculty calender appending|HR04,HR08|
-LR10|Faculty name correction/validation in faculty calender|HR04,HR09|
+LR08|Faculty calender initiative wise|HR04,HR06|
+LR09|Faculty calender appending|HR04,HR08|
+LR10|Faaculty name correction/validation in faculty calender|HR04,HR09|
 LR11|Faculty calender conflicts (Red highlight + pop-up) |HR04,HR10|
 LR12|Faculty load table month wise |HR05,HR06|
 LR13|Faculty load table initiative wise|HR05,HR06|
