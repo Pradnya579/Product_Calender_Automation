@@ -35,23 +35,21 @@ LR18|Faculty load insight : OVERLOAD, UNDERLOAD, OPTIMUM |HR06| Not Available | 
 LR19|Faculty Load Sheet Appending|HR06| Implemented | |
 LR20|Available free slots for faculty from faculty load sheet|HR07| Not Available | |
 LR21 |Let User know that the Output has been Successfully Updated |HR05,HR06,HR07|Implemented | |
-LR22|Master calender check no entry datas whether weekend/missing|HR04||
-LR23|Validate correct number of days in month|HR04,HR05||
+LR22|Master calender check no entry datas whether weekend/missing|HR04| Not Available ||
+LR23|Validate correct number of days in month|HR04,HR05| Not Available ||
+LR24|GUI should get Base Calendar as Input | HR08 | Implemented ||
+LR25|GUI should get Month  and Initiative as Input | HR08 | Implemented ||
 
 
 
 ## Features Checklist
 
-Feature| V0 Python Implementation | V0 Matlab Implementation|
+Feature| V0 Matlab Implementation | V0 Python Implementation|
 |---|---|---|
-Select file from user| Implemented | Implemented |
-Provide Dropdown List for user to select Month and Initiative | Not Available | Implemented |
-Output file generated across different computer| Implemented |Works only with MATLAB |
-Excel file generated for one month | Implemented | Implemented |
-Validates days in month in input file| Not Available|
-Let User Know that the Output File has been Updated Successfully | Not Available |Implemented |
-Let User Know if the rows are not Analyzed | Not Available | Implemented |
-Color Coding for blocking schedule | Implemented | |
+GUI | Implemented | |
+Input taken across different months for different Initiatives | Implemented | |
+Update the Output Calendars | Implemented | |
+
 
 
 
