@@ -14,8 +14,8 @@ HR08 |GUI | Implemented |
 ## Low Level Requirements
 |ID|Feature|High Level ID| MATLAB v0 Status| Python v0 Status |
 |--|---|---|---|----|
-LR01|Master Calendar display month wise |HR04| Implemented | Implemented|
-LR02|Master Calendar display initiative wise|HR04| Implemented | |
+LR01|Master Calendar display Month wise |HR04| Implemented | Implemented|
+LR02|Master Calendar display Initiative wise|HR04| Implemented | |
 LR04|Master Calendar Differentiate Initiatives (Color Codes/Numbers)|HR04| Implemented | Implemented|
 LR05|Master Calendar Appending|HR04| Implemented | | 
 LR06|Master Calendar Course code correction|HR04| Implemented | |
