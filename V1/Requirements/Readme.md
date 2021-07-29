@@ -22,9 +22,9 @@ LR06|Master Calendar Course code correction|HR04| Implemented | |
 LR07|Master Calendar Course title correction|HR04| Not Available | |
 LR08|Master Calendea display the dates that were not analysed|HR04| Implemented | |
 LR09|Faculty Calendar display Month wise |HR05| Implemented | |
-LR010|Faculty Calendar display Initiative wise|HR05| Implemented | |
-LR011|Faculty Calendar Appending|HR05| Implemented | |
-LR012|Faculty Calendar: Differentiate Initiatives (Color Codes/Numbers)|HR05| Implemented |Implemented |
+LR10|Faculty Calendar display Initiative wise|HR05| Implemented | |
+LR11|Faculty Calendar Appending|HR05| Implemented | |
+LR12|Faculty Calendar: Differentiate Initiatives (Color Codes/Numbers)|HR05| Implemented |Implemented |
 LR13|Faculty name correction/validation in faculty calender|HR05| Not Available | |
 LR14|Faculty Calendar: Highlight conflicts (Red highlight/pop-up/Concatenated Numbers) |HR05| Implemented | |
 LR15|Faculty Load Sheet display Month wise |HR06|Implemented | |
@@ -34,9 +34,9 @@ LR18|Faculty Load Sheet: Display Available Slots Faculty wise|HR06| Implemented 
 LR19|Faculty Load Sheet: Warn User if Available Slots goes Negative | HR06 | Not Available| |
 LR20|Faculty load insight : OVERLOAD, UNDERLOAD, OPTIMUM |HR06| Not Available | |
 LR21|Faculty Load Sheet Appending |HR06| Implemented | |
-LR22|Let User know that the Output has been Successfully Updated |HR05,HR06,HR07|Implemented | |
+LR22|Let User know that the Output has been Successfully Updated |HR05, HR06, HR07|Implemented | |
 LR23|Master calender: check no entry datas whether weekend/missing|HR04| Not Available ||
-LR24|Validate correct number of days in month|HR04,HR05| Not Available ||
+LR24|Validate correct number of days in month|HR04, HR05| Not Available ||
 LR25|GUI should get Base Calendar as Input | HR08 | Implemented ||
 LR26|GUI should get Month  and Initiative as Input | HR08 | Implemented ||
 LR27|GUI should be able to show Conflicts/Warnings | HR08 | Implemented ||
