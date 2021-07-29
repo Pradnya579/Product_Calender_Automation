@@ -8,6 +8,7 @@ HR04 |Master Calender | Implemented | |
 HR05 |Faculty calender | Implemented | |
 HR06 |Faculty load sheet | Implemented | |
 HR07 |Showing Available Open Slots based on faculty and modules | Not Available | | 
+HR08 |GUI | Implemented |
 
 
 ## Low Level Requirements
