@@ -41,7 +41,7 @@ LR25|GUI should get Base Calendar as Input | HR08 | Implemented |Implemented|
 LR26|GUI should get Month  and Initiative as Input | HR08 | Implemented |Implemented|
 LR27|GUI should be able to show Conflicts/Warnings | HR08 | Implemented |Not Implemented|
 LR28|Let the User/Faculty book their Slots Themselves | HR07 | Not Available | Not Available|
-
+LR29|GUI should open allow user to login using credentials | HR02 | Not Available | Not Available|
 
 
 
