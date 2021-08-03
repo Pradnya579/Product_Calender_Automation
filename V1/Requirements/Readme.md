@@ -7,7 +7,7 @@ HR03 |Faculty calender | Implemented |Implemented |
 HR04 |Faculty load sheet | Implemented |Implemented |
 HR05 |Showing Available Open Slots based on faculty and modules | Not Available | Not Available| 
 HR06 |Output file generated across different computers (windows + linux)| Not Available |Implemented |
-
+HR07 |Visualizing data to create Meaningful Insights | Not Available| Not Available|
 
 ## Low Level Requirements
 |ID|Feature|High Level ID| MATLAB v0 Status| Python v0 Status |
@@ -41,7 +41,9 @@ LR25|Let User know that the Output has been Successfully Updated |HR02, HR03, HR
 LR26|Validate correct number of days in month|HR02, HR03| Not Available |Not Available|
 LR27|Let the User/Faculty book their Slots Themselves | HR05 | Not Available | Not Available|
 LR28|Accesible by everyone with login Credentials | HR06 | Not Available | Not Available|
-
+LR29| Bar graph indicating the number of slots planned for each faculty| HR07 | Not Available | Not Available|
+LR30| Bar Graph indicating the sessions per initiative| HR07| Not Available | Not Available|
+LR31| Pie chart indicating the % of sessions being taken according to initiatives | HR07 | Not Available | Not Available|
 
 
 
