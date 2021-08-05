@@ -29,7 +29,7 @@ LR13|Faculty Calendar: display Initiative wise|HR03| Implemented |Not Available 
 LR14|Faculty Calendar: Appending|HR03| Implemented | Not Available|
 LR15|Faculty Calendar: Differentiate Initiatives (Color Codes/Numbers)|HR03| Implemented |Implemented |
 LR16|Faculty name correction/validation in faculty calender|HR03| Not Available | Not Available|
-LR17|Faculty Calendar: Highlight conflicts (Red highlight/pop-up/Concatenated Numbers) |HR03| Implemented |Not Available |
+LR17|Faculty Calendar: Highlight conflicts (Red highlight/pop-up/Concatenated Numbers) |HR03| Not Available |Not Available |
 LR18|Faculty Load Sheet: display Month wise |HR04|Implemented |Not Available |
 LR19|Faculty Load Sheet: display Initiative wise|HR04|Implemented |Not Available |
 LR20|Faculty name correction/validation in Faculty Load Sheet|HR04| Not Available | Not Available|
