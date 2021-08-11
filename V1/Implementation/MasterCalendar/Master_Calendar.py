@@ -7,7 +7,7 @@ from openpyxl.styles import PatternFill, Alignment, Border, Side
 Initiative = "GENESIS"
 OutMonth = "July"
 # Reading input from May_Calendar
-InputDataframe = pd.read_excel('C:\Users\vv972\OneDrive\Documents\MATLAB\Calender auomation product\Product_Calender_Automation\V1\Calender_Automation_Test\Additional Calenders\GENESIS\May_Calendar_v0.1.xlsx', sheet_name='Test vector')
+InputDataframe = pd.read_excel(r"C:\Users\vv972\OneDrive\Documents\MATLAB\Calender auomation product\Product_Calender_Automation\V1\Calender_Automation_Test\Additional Calenders\GENESIS\May_Calendar_v0.1.xlsx", sheet_name='Test vector')
 InputDataframe.columns = ['Month', 'Date', 'Day', 'Course Code', 'Module',
                              'Lead1', 'Lead2', 'Lead3', 'Session Slot', 'Session Time','Comments']
 InputDataframe = InputDataframe.drop([0, 1])
@@ -34,7 +34,7 @@ SessionSlot.index = SessionSlot.index - 1
 Comments = InputDataframe['Comments']
 Comments.index = Comments.index - 1
 # Reading Keys from Master calendar
-KeysDataframe = pd.read_excel('C:\Users\vv972\OneDrive\Documents\MATLAB\Calender auomation product\Product_Calender_Automation\V1\Implementation\MasterCalendar/Master.xlsx', sheet_name='Key')
+KeysDataframe = pd.read_excel(r"C:\Users\vv972\OneDrive\Documents\MATLAB\Calender auomation product\Product_Calender_Automation\V1\Implementation\MasterCalendar/Master.xlsx", sheet_name='Key')
 KeysDataframe.columns = ["FixedInitiativeTitles", "FixedInitiativeCodes", "FixedInitiativeColourCodes", "VarName4", "VarName5", "VarName6", "FixedCourseCodes", "FixedCourseTitles"]
 KeysDataframe = KeysDataframe.drop(["VarName4", "VarName5", "VarName6"], axis=1)
 FixedInitiativeTitles = KeysDataframe['FixedInitiativeTitles']
