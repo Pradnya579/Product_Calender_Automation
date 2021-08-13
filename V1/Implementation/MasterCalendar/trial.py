@@ -17,7 +17,7 @@ OutMonth = "July"
 """Extracting data from the input calender
 which is in the day wise format
 """
-InputDataframe = pd.read_excel(r"C:\Users\vv972\OneDrive\Documents\MATLAB\Excel case study\Excel_Automation_Test\Automation_Sample Calender_v0.6.xlsx", sheet_name='Sample_GENESIS')
+InputDataframe = pd.read_excel(r"C:\Users\vv972\OneDrive\Documents\MATLAB\Excel case study\Excel_Automation_Test\Automation_Sample Calender_v0.6.xlsx", sheet_name='Sheet2')
 InputDataframe.columns = ['Month', 'Date', 'Day', 'Course Code', 'Module','Lead1', 'Lead2', 'Lead3', 'Session Slot', 'Session Time','Comments']
 InputDataframe = InputDataframe.drop([0, 1])
 InputDataframe.reset_index(inplace = True, drop= True)
@@ -178,7 +178,7 @@ RespectiveFaculty =pd.DataFrame([[""]*5]*len(UniqueCourseCode))
 
 """Initialising a TimeTable of zeros for UniqueCourseCode for a month of 31 days
 """
-TimeTable =pd.DataFrame([[0]*31]*len(UniqueCourseCode))
+TimeTable =pd.DataFrame([[0]*62]*len(UniqueCourseCode))
 #print(TimeTable)
 
 
@@ -193,30 +193,37 @@ for i in range(len(UniqueCourseCode)):
         if (UniqueCourseCode[i] == CourseCode[j]):
             RespectiveCourseTitle[i]=Data.iloc[j,0]
             Faculty.iloc[i,((j)*3):((j)*3)+3]=Data.iloc[j,1:4]
-            if SessionSlot[j]=='M':
+            if SessionSlot[j]=='M' or SessionSlot[j]=='m':
+                TimeTable.iloc[i,(2*Date[j]-2)]=InitiativeCode
+            elif SessionSlot[j]=='A' or SessionSlot[j]=='a':
                 TimeTable.iloc[i,(2*Date[j]-1)]=InitiativeCode
-            elif SessionSlot[j]=='A':
-                TimeTable.iloc[i,2*Date[j]]=InitiativeCode
-            elif SessionSlot[j]=='F':
-                TimeTable[i,(2*Date[j]-1)]=InitiativeCode
-                TimeTable[i,2*Date[j]]=InitiativeCode
+            elif SessionSlot[j]=='F' or SessionSlot[j]=='f':
+                TimeTable.iloc[i,(2*Date[j]-2)]=InitiativeCode
+                TimeTable.iloc[i,(2*Date[j]-1)]=InitiativeCode
 
 
 
+"""Replacing all the NaN in Faculty with "" empty strings"""
+NanValue = float("NaN")
+Faculty.replace(NanValue, "", inplace=True)
 
 
-""" Replace all the "" in Faculty with NaN"""
+
+"""Converting everything in Faculty to upper case"""
+Faculty = Faculty.apply(lambda x: x.astype(str).str.upper())
+
+
+
+"""Replace all the "" in Faculty with NaN"""
 NanValue = float("NaN")
 Faculty.replace("", NanValue, inplace=True)
 
-"""OR WE COULD,
-#Replacing all the NaN in Faculty with "" empty strings
-NanValue = float("NaN")
-Faculty.replace(NanValue, "", inplace=True)"""
 
-for i in range(len(UniqueCourseCode)):
-    RespectiveFaculty.iloc[i,:] = pd.Series(Faculty.iloc[i,:].unique())
-    RespectiveFaculty.iloc[i,:].dropna(inplace=True)
+"""Forming the list of unique faculties for a partiulr course and saving it in RespectiveFaculty"""
+for i in range(0,len(UniqueCourseCode)):
+    UniqueFaculty = pd.Series(Faculty.iloc[i,:].unique())
+    UniqueFaculty.dropna(inplace=True)
+    RespectiveFaculty.iloc[i,0:len(UniqueFaculty)]=UniqueFaculty
 
 
 print(UniqueCourseCode)
