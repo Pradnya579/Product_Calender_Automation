@@ -4,13 +4,21 @@
 from string import ascii_uppercase
 import pandas as pd
 from openpyxl import load_workbook
+from openpyxl.utils.dataframe import dataframe_to_rows
 from openpyxl.styles import PatternFill, Alignment, Border, Side
 import numpy as np
 from pandas.core.frame import DataFrame
 from pandas.core.series import Series
 
+
+"""Global variables"""
+NanValue = float("NaN")
+ErrorCode = 0
+
+
 """Taking data from GUI"""
 Initiative = "GENESIS"
+#Initiative = Initiative.upper()
 OutMonth = "July"
 
 
@@ -78,6 +86,22 @@ if course code incorrect , course title correct         =   corrects course code
 if course code correct   , course title  incorrect      =   corrects course title
 if course code incorrect , course title also incorrect  =   replaces the course code with ""
 """
+
+"""Converting everything in CourseCode, FixedCourseCodes, FixedInitiatveTitles to upper case"""
+#CourseCode.str.upper()
+#FixedCourseCodes.str.upper()
+#FixedInitiativeTitles.str.upper()
+
+
+"""Removing all the leading and trailing spaces from CourseCode, Module, FixedInitiativeTitles, FixedCourseCodes, fixedCourseTitles"""
+CourseCode.str.strip()
+Module.str.strip()
+FixedInitiativeTitles.str.strip()
+FixedCourseCodes.str.strip()
+FixedCourseTitles.str.strip()
+
+
+
 
 """Fixing the error course codes"""
 for i in range(0, len(CourseCode)):
@@ -202,23 +226,27 @@ for i in range(len(UniqueCourseCode)):
                 TimeTable.iloc[i,(2*Date[j]-1)]=InitiativeCode
 
 
-
+#print(Faculty)
 """Replacing all the NaN in Faculty with "" empty strings"""
 NanValue = float("NaN")
 Faculty.replace(NanValue, "", inplace=True)
 
 
-
+#print(Faculty)
 """Converting everything in Faculty to upper case"""
 Faculty = Faculty.apply(lambda x: x.astype(str).str.upper())
 
+"""removing leading and trailing spaces from everything in Faculty"""
+Faculty = Faculty.apply(lambda x: x.astype(str).str.strip())
 
 
+#print(Faculty)
 """Replace all the "" in Faculty with NaN"""
 NanValue = float("NaN")
 Faculty.replace("", NanValue, inplace=True)
 
-
+#print(Faculty)
+#print("1")
 """Forming the list of unique faculties for a partiulr course and saving it in RespectiveFaculty"""
 for i in range(0,len(UniqueCourseCode)):
     UniqueFaculty = pd.Series(Faculty.iloc[i,:].unique())
@@ -226,8 +254,162 @@ for i in range(0,len(UniqueCourseCode)):
     RespectiveFaculty.iloc[i,0:len(UniqueFaculty)]=UniqueFaculty
 
 
-print(UniqueCourseCode)
-print(RespectiveCourseTitle)
-print(Faculty)
-print(RespectiveFaculty)
-print(TimeTable)
+#print(UniqueCourseCode)
+#print(RespectiveCourseTitle)
+#print(Faculty)
+#print(RespectiveFaculty)
+#print(TimeTable)
+
+
+
+"""
+Importing the existing data from OutMonth.xlsx sheet of Master.xlsx workbook
+"""
+
+ExistingDataframe = pd.read_excel(r"C:\Users\vv972\OneDrive\Documents\MATLAB\Excel case study\Master.xlsx", sheet_name=OutMonth)
+ExistingDataframe = DataFrame(ExistingDataframe.drop([0, 1]))
+ExistingDataframe = ExistingDataframe.reset_index(drop=True)
+UniqueCourseCodeOutMonth = pd.Series(ExistingDataframe.iloc[:, 0])
+RespectiveCourseTitleOutMonth = pd.Series(ExistingDataframe.iloc[:, 1])
+RespectiveFacultyOutMonth = DataFrame(ExistingDataframe.iloc[:, 2:6])
+TimeTableOutMonth = DataFrame(ExistingDataframe.iloc[:, 7:69])
+RespectiveFacultyWidthOutMonth = len(RespectiveFacultyOutMonth.columns)
+
+#ExistingOutputDataframe = [UniqueCourseCodeOutMonth, RespectiveCourseTitleOutMonth, RespectiveFacultyOutMonth]
+#ExistingOutputDataframe = pd.concat([UniqueCourseCodeOutMonth, RespectiveCourseTitleOutMonth, RespectiveFacultyOutMonth],axis=1)
+#print(ExistingOutputDataframe)
+#print(UniqueCourseCode,"\n", RespectiveCourseTitleOutMonth,"\n", RespectiveFacultyOutMonth ,"\n",TimeTableOutMonth)
+
+
+"""
+Opening Master calendar excel using openpyxl
+"""
+WriteExcel = load_workbook(r"C:\Users\vv972\OneDrive\Documents\MATLAB\Excel case study\Master.xlsx")
+MasterCalendarOutMonth = WriteExcel[OutMonth]
+
+#print(ExistingDataframe)
+"""
+Checking the data that already exists on OutMonth.xlsx sheet of Master.xlsx workbook
+If data == Empty  , the over-write the new data (OutputDataFrame)
+If data != Empty  , then append the new data (OutputDataFrame) to the existing data
+"""
+IsEmpty = UniqueCourseCodeOutMonth.empty
+#print(IsEmpty)
+OutputDataframe = pd.concat([UniqueCourseCode, RespectiveCourseTitle, RespectiveFaculty], axis=1, ignore_index=True)
+if IsEmpty:
+    rows = dataframe_to_rows(OutputDataframe, index=False, header=False)
+    for r_idx, row in enumerate(rows, 4):
+        for c_idx, value in enumerate(row, 1):
+            MasterCalendarOutMonth.cell(row=r_idx, column=c_idx, value=value)
+    Schedule = dataframe_to_rows(TimeTable, index=False, header=False)
+    for r_idx, row in enumerate(Schedule, 4):
+        for c_idx, value in enumerate(row, 8):
+            MasterCalendarOutMonth.cell(row=r_idx, column=c_idx, value=value)
+else:
+    #print(UniqueCourseCode)
+    #print(UniqueCourseCodeOutMonth)
+
+
+
+    """Counting the number of common courses in between UniqueCourseCode and UniqueCourseCodeOutMonth"""
+    TempCounterFinal = 0
+    for i in range(0, len(UniqueCourseCode)):
+        for j in range(0, len(UniqueCourseCodeOutMonth)):
+            if UniqueCourseCode[i] == UniqueCourseCodeOutMonth[j]:
+                TempCounterFinal = TempCounterFinal + 1
+    #print(TempCounterFinal)
+
+
+
+
+    """Initialising the final outputs of FinalUniqueCourseCode, FinalRespectiveCourseTitle, FinalRespectiveFaculty"""
+    FinalLength = len(UniqueCourseCodeOutMonth) + len(UniqueCourseCode) - TempCounterFinal
+
+    FinalUniqueCourseCode = pd.Series([""]*FinalLength)
+    FinalUniqueCourseCode[:len(UniqueCourseCodeOutMonth)] = UniqueCourseCodeOutMonth
+
+    FinalRespectiveCourseTitle = pd.Series([""]*FinalLength)
+    FinalRespectiveCourseTitle[:len(UniqueCourseCodeOutMonth)] = RespectiveCourseTitleOutMonth
+
+    FinalRespectiveFaculty = pd.DataFrame([[""]*5]*FinalLength)
+    FinalRespectiveFaculty.iloc[:len(UniqueCourseCodeOutMonth),0:RespectiveFacultyWidthOutMonth] = RespectiveFacultyOutMonth
+    FinalRespectiveFaculty.replace(NanValue, "", inplace=True)
+
+    FinalTimeTable = pd.DataFrame([[0] * 62] * FinalLength)
+    FinalTimeTable.iloc[:len(UniqueCourseCodeOutMonth), :] = TimeTableOutMonth
+
+    #print(FinalUniqueCourseCode)
+    #print(FinalRespectiveCourseTitle)
+    #print(FinalRespectiveFaculty)
+    #print(FinalTimeTable)
+
+    TempCounterCourse = 0
+    TempCounterFaculty = 0
+    for i in range(0,len(UniqueCourseCode)):
+        TempFlagCourse = 0
+        for j in range(0, len(FinalUniqueCourseCode)):
+            if UniqueCourseCode[i] == FinalUniqueCourseCode[j]:
+                TempFlagCourse = 1
+                TempRow = j
+
+        if TempFlagCourse == 1:
+
+            RespectiveFacultyLength = pd.Series(RespectiveFaculty.iloc[i,:].unique())
+            RespectiveFacultyLength.replace("", NanValue, inplace=True)
+            RespectiveFacultyLength.dropna(inplace=True)
+            RespectiveFacultyLength = len(RespectiveFacultyLength)
+
+            FinalRespectiveFacultyLength = pd.Series(FinalRespectiveFaculty.iloc[TempRow,:].unique())
+            FinalRespectiveFacultyLength.replace("", NanValue, inplace=True)
+            FinalRespectiveFacultyLength.dropna(inplace=True)
+            FinalRespectiveFacultyLength = len(FinalRespectiveFacultyLength)
+
+            for x in range(0, RespectiveFacultyLength):
+                TempFlagFaculty = 0
+                for y in range(0, FinalRespectiveFacultyLength):
+                    if RespectiveFaculty.iloc[i,x] == FinalRespectiveFaculty.iloc[TempRow, y]:
+                        TempFlagFaculty = 1
+
+                if TempFlagFaculty == 0:
+                    FinalRespectiveFaculty.iloc[TempRow,FinalRespectiveFacultyLength + TempCounterFaculty] = RespectiveFaculty.iloc[i,x]
+                    TempCounterFaculty = TempCounterFaculty + 1
+
+                if (TempCounterFaculty + FinalRespectiveFacultyLength) > 4:
+                    TempCounterFaculty = 0
+                    ErrorCode = 1
+                    break
+
+            for a in range(0,61):
+                if TimeTable.iloc[i,a] == InitiativeCode:
+                    FinalTimeTable.iloc[TempRow, a] = TimeTable.iloc[i,a]
+
+        elif TempFlagCourse == 0:
+            TempRowFinal = len(UniqueCourseCodeOutMonth) + TempCounterCourse
+            FinalUniqueCourseCode[TempRowFinal] = UniqueCourseCode[i]
+            FinalRespectiveCourseTitle[TempRowFinal] = RespectiveCourseTitle[i]
+            FinalRespectiveFaculty.iloc[TempRowFinal, :] = RespectiveFaculty.iloc[i,:]
+            FinalTimeTable.iloc[TempRowFinal, :] = TimeTable.iloc[i,:]
+            TempCounterCourse = TempCounterCourse + 1
+            if TempRowFinal > (len(FixedCourseCodes) - 1):
+                ErrorCode = 2
+                break
+
+    FinalDataframe = pd.concat([FinalUniqueCourseCode, FinalRespectiveCourseTitle, FinalRespectiveFaculty], axis=1, ignore_index=True)
+    rows = dataframe_to_rows(FinalDataframe, index=False, header=False)
+    for r_idx, row in enumerate(rows, 4):
+        for c_idx, value in enumerate(row, 1):
+            MasterCalendarOutMonth.cell(row=r_idx, column=c_idx, value=value)
+    Schedule = dataframe_to_rows(FinalTimeTable, index=False, header=False)
+    for r_idx, row in enumerate(Schedule, 4):
+        for c_idx, value in enumerate(row, 8):
+            MasterCalendarOutMonth.cell(row=r_idx, column=c_idx, value=value)
+
+
+    
+
+
+
+
+
+"""Saving the updated Master.xlsx workbook"""
+WriteExcel.save(r"C:\Users\vv972\OneDrive\Documents\MATLAB\Excel case study\Master.xlsx")
