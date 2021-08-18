@@ -404,6 +404,13 @@ else:
         for c_idx, value in enumerate(row, 8):
             MasterCalendarOutMonth.cell(row=r_idx, column=c_idx, value=value)
 
+DatesNotAnalysed = []
+for i in range(len(CourseCode)):
+    if CourseCode[i]  == "":
+        DatesNotAnalysed.append(Date[i])
+
+print(DatesNotAnalysed)
+
 
     
 
