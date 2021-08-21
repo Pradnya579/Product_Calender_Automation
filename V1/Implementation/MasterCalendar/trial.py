@@ -17,7 +17,7 @@ ErrorCode = 0
 
 
 """Taking data from GUI"""
-Initiative = "GENESIS"
+Initiative = "STEPin"
 #Initiative = Initiative.upper()
 OutMonth = "July"
 
@@ -403,6 +403,72 @@ else:
     for r_idx, row in enumerate(Schedule, 4):
         for c_idx, value in enumerate(row, 8):
             MasterCalendarOutMonth.cell(row=r_idx, column=c_idx, value=value)
+
+
+
+
+
+
+"""
+Setting colour codes for Initiatives 
+"""
+KeySheet = WriteExcel["Key"]
+KeyCodes = list(FixedInitiativeTitles)
+ColourValues =['003366FF','00FF0000','0000FF00', '00800080', '00008080', '00FF99CC', '00808000', '00000080',  '0000FFFF','00800000', '000000FF', '00008000', '0033CCCC', '00FFCC99', '00333399', '00CC99FF', '00FF00FF', '00FFFF00', '00CCFFFF','00CCFFCC','00FFFF99','0099CCFF']
+
+"""
+Fill the colour for cells in colour code column
+"""
+i = 0
+for row in KeySheet.iter_rows(min_row=2,min_col=3,max_row=len(FixedInitiativeCodes), max_col=3):
+    for cell in row:
+        cell.fill = PatternFill(fill_type='solid',
+                                start_color=ColourValues[i], end_color=ColourValues[i])
+        if i == len(ColourValues) - 1:  # not to run out of index range
+            i = 0
+        else:
+            i +=1
+
+KeyDictionary = {}
+for i in range(len(KeyCodes)):
+    KeyDictionary[KeyCodes[i]] = ColourValues[i]
+#print(KeyDictionary[Initiative])
+set_border = Border(left=Side(style='thin'),
+                            right=Side(style='thin'),
+                            top=Side(style='thin'),
+                            bottom=Side(style='thin'))
+
+"""
+ Iterate through timetable cell values and fill if value 1 else blank
+"""
+
+FixedInitiativeTitles = KeysDataframe['FixedInitiativeTitles']
+FixedInitiativeTitles = FixedInitiativeTitles.dropna()
+FixedInitiativeCodes = KeysDataframe['FixedInitiativeCodes']
+FixedInitiativeCodes = FixedInitiativeCodes.dropna()
+
+InitiativeKey = {}
+for i in range(len(FixedInitiativeTitles)):
+    InitiativeKey[FixedInitiativeTitles[i]] = int(FixedInitiativeCodes[i])
+#print(InitiativeKey)
+
+for row in MasterCalendarOutMonth.iter_rows(min_row=4,min_col=8):
+    for cell in row:
+        if cell.value == InitiativeKey[Initiative]:
+            cell.fill = PatternFill(fill_type='solid',
+                                    start_color=KeyDictionary[Initiative], end_color=KeyDictionary[Initiative])
+            cell.border = set_border
+            cell.value = ''
+        if cell.value == 0:
+            cell.value = ''
+
+
+
+
+
+
+
+
 
 DatesNotAnalysed = []
 for i in range(len(CourseCode)):
