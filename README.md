@@ -6,7 +6,7 @@
 
 https://docs.google.com/spreadsheets/d/1EWYp_1iyK2wLMfKGJOiTJAk5WexZusCP/edit?usp=sharing&ouid=113003694561146884677&rtpof=true&sd=true
 
-* Using the template above, training schedule can be added for individual monthwise and initiatives wise
+* Using the template above, training schedule can be added monthwise and initiatives wise
 * The name of the input excel sheet MUST be named as "Test_vector"(as shown in template)
 * Along with the Test_vector sheet, "Key" sheet MUST be present under the columns assigned as in the template
 * The "Key" sheet must contain all times the 6 fixed initiatives with their respective codes and total list of course code and course title in order to refer for corrections while writing to output files
