@@ -2,7 +2,9 @@
 
 ## Requirements for updating Master calendar with input file using standard template
 
-# Link for template standard input template : https://docs.google.com/spreadsheets/d/1EWYp_1iyK2wLMfKGJOiTJAk5WexZusCP/edit?usp=sharing&ouid=113003694561146884677&rtpof=true&sd=true
+# Link for template standard input template : 
+
+https://docs.google.com/spreadsheets/d/1EWYp_1iyK2wLMfKGJOiTJAk5WexZusCP/edit?usp=sharing&ouid=113003694561146884677&rtpof=true&sd=true
 
 * Using the template above, training schedule can be added for individual monthwise and initiatives wise
 * The name of the input excel sheet MUST be named as "Test_vector"(as shown in template)
