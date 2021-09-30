@@ -24,3 +24,12 @@ https://docs.google.com/spreadsheets/d/1EWYp_1iyK2wLMfKGJOiTJAk5WexZusCP/edit?us
 * The blocked slots must have the corresponding initiative code in the cell according to the key as shown in the sample data in the template
 * The name of the sheet must be the name of the month to be updated
 * The "Key" sheet must be present with the fixed list of initiatives and initiative code 
+
+### Additional features for V1 to do
+* Update keysheet by appending new initiatives/courses list
+* Check for duplicate course entries in input file
+* Using built in libraries to identify number of days in month, current year and highlight weekend and holidays
+* Function to remove a course schedule 
+* Read multiple months data in one sheet as input file (currently takes data one by one month)
+
+
