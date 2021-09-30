@@ -25,6 +25,18 @@ https://docs.google.com/spreadsheets/d/1EWYp_1iyK2wLMfKGJOiTJAk5WexZusCP/edit?us
 * The name of the sheet must be the name of the month to be updated
 * The "Key" sheet must be present with the fixed list of initiatives and initiative code 
 
+## App deployment
+
+* The app is deployed on heroku servers.
+* To add/modify new features, you will be required to install HEROKU CLI [link](https://devcenter.heroku.com/articles/getting-started-with-python#set-up)
+* After installation, open terminal in working directory and enter the following commands:
+  - "heroku git:clone -a geacalendar"
+  - login using heroku credentials
+* After pulling and making changes, enter the following commands to push app and deploy on server
+  - git add .
+  - git commit -m "commit message"
+  - git push heroku master
+
 ### Additional features for V1 to do
 * Update keysheet by appending new initiatives/courses list
 * Check for duplicate course entries in input file
