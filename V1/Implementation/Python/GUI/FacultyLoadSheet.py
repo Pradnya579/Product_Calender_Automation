@@ -129,4 +129,4 @@ def FacultyLoadSheetFunction():
 
     # UPLOAD FACULTY LOADSHEET
     # ---------------------------------------------------------------------------------------------------
-    upload_file(FacultyLoadSheet)
+    upload_file("FacultyLoadSheet.xlsx")
