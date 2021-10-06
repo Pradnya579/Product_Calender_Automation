@@ -7,11 +7,9 @@ gauth.LoadCredentialsFile("credentials.txt")
 
 drive = GoogleDrive(gauth)
 
-import pandas as pd
-import numpy as np
 from openpyxl import load_workbook
-from openpyxl.styles import PatternFill, Alignment, Border, Side
-
+from openpyxl.styles import PatternFill
+import pandas as pd
 
 
 def upload_file(file_name):
@@ -20,13 +18,43 @@ def upload_file(file_name):
     file1.SetContentFile(file_name)
     file1.Upload({"convert": True})
 
+    folder_name = 'Download'
 
-def download_file():
+    folders = drive.ListFile(
+        {
+            'q': "title='" + folder_name + "' and mimeType='application/vnd.google-apps.folder' and trashed=false"}).GetList()
+    for folder in folders:
+        if folder['title'] == folder_name:
+            file2 = drive.CreateFile({'parents': [{'id': folder['id']}]})
+            file2.SetContentFile(file_name)
+            file2.Upload()
+
+
+def download_master_calendar():
     """
     Searching for a file and downloading it -> insert file name after contains
     give file name to variable file_name
     """
-    file_list = drive.ListFile({'q': "title contains 'FacultyCalendar' and trashed=false"}).GetList()
+    file_list = drive.ListFile({'q': "title contains 'Master' and trashed=false"}).GetList()
+    # print(file_list[0]['title'])
+    file_id = file_list[0]['id']
+    # print(file_id)
+    file = drive.CreateFile({'id': file_id})
+    file_time = datetime.now().strftime(" %Y-%m-%d_%I-%M-%S_%p")
+    file_name = 'Master'
+    file_format = '.xlsx'
+    file_title = file_name + file_time + file_format
+    file.GetContentFile(file_title,
+                        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    return file_title
+
+
+def download_faculty_calendar():
+    """
+    Searching for a file and downloading it -> insert file name after contains
+    give file name to variable file_name
+    """
+    file_list = drive.ListFile({'q': "title contains 'FacultyCalendar_Output' and trashed=false"}).GetList()
     print(file_list[0]['title'])
     file_id = file_list[0]['id']
     print(file_id)
@@ -38,179 +66,145 @@ def download_file():
     file.GetContentFile(file_title,
                         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     return file_title
-def list_files():
-    """
-    Listing all files -> insert file name after contains
-    This will list all the files that have similar name with their ID
-    """
-    file_list = drive.ListFile({'q': "title contains 'FacultyCalendar_Output' and trashed=false"}).GetList()
-    for file in file_list:
-        print(file['title'], file['id'])
 
 
-"""Taking data from GUI"""
+def FacultyCalendarFunction():
+    # Sheet Names
+    SheetNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                  "November", "December"]
+    MasterCalendar = download_master_calendar()  # Download latest Master Calendar
+    FacultyCalendar = download_faculty_calendar()  # Download Latest Faculty calendar
+    # df = pd.read_excel(MasterCalendar, 'Key')
+    # Initiatives = df['FixedInitiativeTitles'].dropna()
+    # Initiativecode = df['FixedInitiativeCodes'].dropna()
+    # Init = []
+    # for i in range(len(Initiatives)):
+    # Init.append(Initiativecode[i] + 'p')
+    # Init.append(Initiativecode[i] + 's')
 
+    # Running all the sheets of Master Calendar
+    for Sheet in range(12):
+        MonthSheet = SheetNames[Sheet]
+        wb1 = load_workbook(MasterCalendar)
+        MasterExcel = wb1[MonthSheet]
+        wb2 = load_workbook(FacultyCalendar)
+        FacultyExcel = wb2[MonthSheet]
+        FacultyExcel.delete_rows(5, FacultyExcel.max_row - 4)
+        # Loading all the rows and columns of particular Month sheet
+        all_rows = list(MasterExcel.rows)
+        all_Columns = list(MasterExcel.columns)
+        FacultydList = []
+        Leads1 = []
+        Leads2 = []
+        Leads3 = []
+        Leads4 = []
+        Leads5 = []
+        for row in range(3, len(all_rows)):
+            for column in range(7):
+                if column == 2:
+                    if all_rows[row][column].value:
+                        # Getting the Primary Faculty Names
+                        FacultydList.append((all_rows[row][column].value).upper())
+                        Leads1.append((all_rows[row][column].value).upper())
+                    else:
+                        Leads1.append((all_rows[row][column].value))
+                if column == 3:
+                    # Getting the Secondary Faculty Names
+                    if all_rows[row][column].value:
+                        FacultydList.append((all_rows[row][column].value).upper())
+                        Leads2.append((all_rows[row][column].value).upper())
+                    else:
+                        Leads2.append(all_rows[row][column].value)
+                if column == 4:
+                    # Getting the Secondary Faculty Names
+                    if all_rows[row][column].value:
+                        FacultydList.append((all_rows[row][column].value).upper())
+                        Leads3.append((all_rows[row][column].value).upper())
+                    else:
+                        Leads3.append(all_rows[row][column].value)
+                if column == 5:
+                    # Getting the Secondary Faculty Names
+                    if all_rows[row][column].value:
+                        FacultydList.append((all_rows[row][column].value).upper())
+                        Leads4.append((all_rows[row][column].value).upper())
+                    else:
+                        Leads4.append(all_rows[row][column].value)
+                if column == 6:
+                    # Getting the Secondary Faculty Names
+                    if all_rows[row][column].value:
+                        FacultydList.append((all_rows[row][column].value).upper())
+                        Leads5.append((all_rows[row][column].value).upper())
+                    else:
+                        Leads5.append(all_rows[row][column].value)
+        FacultyList = []
+        for val in FacultydList:
+            if val != None:
+                FacultyList.append(val)
+        FacultyList = list(set(FacultyList))
+        FacultySlots = []
+        ExistingSlots = []
+        for i in range(len(FacultyList)):
+            FacultySlots.append([''] * 124)
+        for i in range(len(Leads1)):
+            ExistingSlots.append([''] * 124)
 
-def FacultyCalendarFunction(SheetName, InputCalendar, Initiative, Month):
-    Month = Month.upper()
-    wb = load_workbook(InputCalendar)
-    InputExcel = wb[SheetName]
-    all_rows = list(InputExcel.rows)
-    all_Columns = list(InputExcel.columns)
-    df = pd.read_excel(InputCalendar, 'Key')
-    Initiatives = df['FixedInitiativeTitles']
-    Initiativecode = df['FixedInitiativeCodes']
-    Date = []
-    FacultydList = []
-    Leads1 = []
-    Leads2 = []
-    Leads3 = []
-    SessionSlot = []
-    RowLength = len(all_Columns[1])-3
-    for head in range(8):
-        for cell in range(3, len(all_Columns[head+1])):
-            if head+1 == 1:
-                list.append(Date, all_Columns[head+1][cell].value)
-            elif head+1 == 2 | head+1 == 3 | head+1 == 4:
-                break
-            elif head+1 == 5:
-                if all_Columns[head+1][cell].value:
-                    temp = all_Columns[head+1][cell].value.strip()
-                    temp.upper()
-                    list.append(FacultydList, temp)
-                    list.append(Leads1,temp)
-                else:
-                    list.append(Leads1, all_Columns[head+1][cell].value) 
-            elif head+1 == 6:
-                if all_Columns[head+1][cell].value:
-                    temp = all_Columns[head+1][cell].value.strip()
-                    temp.upper()
-                    list.append(FacultydList, temp)
-                    list.append(Leads2, temp)
-                else:
-                    list.append(Leads2, all_Columns[head+1][cell].value)                    
-            elif head+1 == 7:
-                if all_Columns[head+1][cell].value:
-                    temp = all_Columns[head+1][cell].value.strip()
-                    temp.upper()
-                    list.append(FacultydList, temp)
-                    list.append(Leads3, temp)
-                else:
-                    list.append(Leads3, all_Columns[head+1][cell].value) 
-            elif head+1 == 8:
-                if all_Columns[head+1][cell].value:
-                    temp = all_Columns[head+1][cell].value.strip()
-                    temp.upper()
-                    list.append(SessionSlot, temp)
-                else:
-                    list.append(SessionSlot, all_Columns[head+1][cell].value) 
-    FacultyList = []
-    for val in FacultydList:
-        if val != None :
-            FacultyList.append(val)
-    FacultyList = list(set(FacultyList))
-    FacultyM1Slots = []
-    FacultyM2Slots = []
-    FacultyA1Slots = []
-    FacultyA2Slots = []
-    for i in range(len(FacultyList)):
-        FacultyM1Slots.append([0]*31)
-        FacultyM2Slots.append([0]*31)
-        FacultyA1Slots.append([0]*31)
-        FacultyA2Slots.append([0]*31)
-    for k in range(len(Initiatives)):
-        if Initiative == Initiatives[k]:
-            code = k
-    for i in range(RowLength):
-        for j in range(len(FacultyList)):
-            if Leads1[i] == FacultyList[j]:
-                if SessionSlot[i] == 'M1' or SessionSlot[i] == 'M' or SessionSlot[i] == 'F':
-                    FacultyM1Slots[j][Date[i]-1] = str(Initiativecode[code])+'P'
-                if SessionSlot[i] == 'M1' or SessionSlot[i] == 'M' or SessionSlot[i] == 'F':
-                    FacultyM2Slots[j][Date[i]-1] = str(Initiativecode[code])+'P'
-                if SessionSlot[i] == 'A1' or SessionSlot[i] == 'A' or SessionSlot[i] == 'F':
-                    FacultyA1Slots[j][Date[i]-1] = str(Initiativecode[code])+'P'
-                if SessionSlot[i] == 'A2' or SessionSlot[i] == 'A' or SessionSlot[i] == 'F':
-                    FacultyA2Slots[j][Date[i]-1] = str(Initiativecode[code])+'P'
-            if Leads2[i] == FacultyList[j]:
-                if SessionSlot[i] == 'M1' or SessionSlot[i] == 'M' or SessionSlot[i] == 'F':                     
-                    FacultyM1Slots[j][Date[i]-1] = str(Initiativecode[code])+'S'
-                if SessionSlot[i] == 'M1' or SessionSlot[i] == 'M' or SessionSlot[i] == 'F':
-                    FacultyM2Slots[j][Date[i]-1] = str(Initiativecode[code])+'S'
-                if SessionSlot[i] == 'A1' or SessionSlot[i] == 'A' or SessionSlot[i] == 'F':
-                    FacultyA1Slots[j][Date[i]-1] = str(Initiativecode[code])+'S'
-                if SessionSlot[i] == 'A2' or SessionSlot[i] == 'A' or SessionSlot[i] == 'F':
-                    FacultyA2Slots[j][Date[i]-1] = str(Initiativecode[code])+'S'
-            if Leads3[i] == FacultyList[j]:
-                if SessionSlot[i] == 'M1' or SessionSlot[i] == 'M' or SessionSlot[i] == 'F':                     
-                    FacultyM1Slots[j][Date[i]-1] = str(Initiativecode[code])+'S'
-                if SessionSlot[i] == 'M1' or SessionSlot[i] == 'M' or SessionSlot[i] == 'F':
-                    FacultyM2Slots[j][Date[i]-1] = str(Initiativecode[code])+'S'
-                if SessionSlot[i] == 'A1' or SessionSlot[i] == 'A' or SessionSlot[i] == 'F':
-                    FacultyA1Slots[j][Date[i]-1] = str(Initiativecode[code])+'S'
-                if SessionSlot[i] == 'A2' or SessionSlot[i] == 'A' or SessionSlot[i] == 'F':
-                    FacultyA2Slots[j][Date[i]-1] = str(Initiativecode[code])+'S'
-    Months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER",
-              "NOVEMBER", "DECEMBER"];
-    for i in range(12):
-        if Month == Months[i]:
-            index = i
-    Slots = []
-    for i in range(len(FacultyList)):
-        Slots.append([])
-    for i in range(len(FacultyList)):
-        for j in range(31):
-            Slots[i].append(FacultyM1Slots[i][j])
-            Slots[i].append(FacultyM2Slots[i][j])
-            Slots[i].append(FacultyA1Slots[i][j])
-            Slots[i].append(FacultyA2Slots[i][j])
-    OutputExcelSheet = download_file()
-    OutputSheet = pd.ExcelFile(OutputExcelSheet)
-    OutputSheetNames = OutputSheet.sheet_names
-    wb = load_workbook(OutputExcelSheet)
-    OutputExcel = wb[OutputSheetNames[index]]
-    OutputRows = list(OutputExcel.rows)
-    ExdFacultyList = []
-    for head in range(4,24):
-        list.append(ExdFacultyList, OutputRows[head][1].value)
-    ExFacultyList = []
-    for val in ExdFacultyList:
-        if val != None :
-            ExFacultyList.append(val)
-    ExSlots = []
-    for i in range(len(ExFacultyList)):
-        ExSlots.append([])
-    for head in range(4,4+len(ExFacultyList)):
-        for cell in range(2,126):
-            list.append(ExSlots[head-4],OutputRows[head][cell].value)
-    CheckList = [0]*len(FacultyList)
-    CheckList1 = [0]*len(ExFacultyList)
-    Range = 0;
-    ColourValues =['0000FF','FF0000','00FF00', '00800080', '00008080', '00FF99CC']
-    for i in range(len(ExFacultyList)):
-        for j in range(len(FacultyList)):
-            if ExFacultyList[i] == FacultyList[j]:
-                CheckList[j] = 1
-                CheckList1[i] = 1
-                for k in range(124):
-                    if ExSlots[i][k] != Slots[j][k]:
-                        if ExSlots[i][k]==0:
-                            ExSlots[i][k] = Slots[j][k]
-                        elif ExSlots[i][k] and Slots[j][k]!=0:
-                            ExSlots[i][k] = (Slots[j][k]) + (ExSlots[i][k])
-                        OutputExcel.cell(row=5+i, column=3+k).value = ExSlots[i][k]
-                        if ExSlots[i][k]!=0:
-                            temp = int(ExSlots[i][k][0])
-                            OutputExcel.cell(row=5+i, column=3+k).fill = PatternFill(fill_type='solid', start_color=ColourValues[temp-1], end_color=ColourValues[temp-1])                            
-    Range = 0;    
-    for i in range(len(FacultyList)):
-        if CheckList[i]==0:
-            OutputExcel.cell(row=5+len(ExFacultyList)+Range, column=2).value = FacultyList[i]
+        for row in range(3, len(Leads1) + 3):
+            for column in range(7, 130):
+                if all_rows[row][column].value:
+                    ExistingSlots[row - 3][column - 7] = all_rows[row][column].value
+        for i in range(len(Leads1)):
+            for j in range(len(FacultyList)):
+                if FacultyList[j] == Leads1[i]:
+                    for k in range(124):
+                        if ExistingSlots[i][k]:
+                            FacultySlots[j][k] = FacultySlots[j][k] + str(ExistingSlots[i][k]) + 'p'
+                if FacultyList[j] == Leads2[i]:
+                    for k in range(124):
+                        if ExistingSlots[i][k]:
+                            FacultySlots[j][k] = FacultySlots[j][k] + str(ExistingSlots[i][k]) + 's'
+                if FacultyList[j] == Leads3[i]:
+                    for k in range(124):
+                        if ExistingSlots[i][k]:
+                            FacultySlots[j][k] = FacultySlots[j][k] + str(ExistingSlots[i][k]) + 's'
+                if FacultyList[j] == Leads4[i]:
+                    for k in range(124):
+                        if ExistingSlots[i][k]:
+                            FacultySlots[j][k] = FacultySlots[j][k] + str(ExistingSlots[i][k]) + 's'
+                if FacultyList[j] == Leads5[i]:
+                    for k in range(124):
+                        if ExistingSlots[i][k]:
+                            FacultySlots[j][k] = FacultySlots[j][k] + str(ExistingSlots[i][k]) + 's'
+        ColourValues = ["009EE362", "0000C0D0", "00FFD403", "00FF9356", "007E74D4", "00FE82AA", "00B28DFF", "FF0000"]
+        for i in range(len(FacultyList)):
+            FacultyExcel.cell(row=5 + i, column=1).value = i + 1
+            FacultyExcel.cell(row=5 + i, column=2).value = FacultyList[i]
+            correct = 1
             for j in range(124):
-                OutputExcel.cell(row=5+len(ExFacultyList)+Range, column=3+j).value = Slots[i][j]
-                if Slots[i][j]!=0:
-                    temp = int(Slots[i][j][0])
-                    OutputExcel.cell(row=5+len(ExFacultyList)+Range, column=3+j).fill = PatternFill(fill_type='solid', start_color=ColourValues[temp-1], end_color=ColourValues[temp-1])
-            Range = Range + 1
-    wb.save(OutputExcelSheet)
-    upload_file(OutputExcelSheet)
+                FacultyExcel.cell(row=5 + i, column=3 + j).value = FacultySlots[i][j]
+                if FacultySlots[i][j] == "GEp" or FacultySlots[i][j] == "GEs":
+                    correct = 0
+                    # FacultyExcel.cell(row = 5+i, column = 3+j).fill = PatternFill(fill_type='solid', start_color=ColourValues[0], end_color=ColourValues[0])
+                elif FacultySlots[i][j] == "GE/Pp" or FacultySlots[i][j] == "GE/Ps":
+                    correct = 0
+                    # FacultyExcel.cell(row = 5+i, column = 3+j).fill = PatternFill(fill_type='solid', start_color=ColourValues[1], end_color=ColourValues[1])
+                elif FacultySlots[i][j] == "B/SUp" or FacultySlots[i][j] == "B/SUs":
+                    correct = 0
+                    # FacultyExcel.cell(row = 5+i, column = 3+j).fill = PatternFill(fill_type='solid', start_color=ColourValues[2], end_color=ColourValues[2])
+                elif FacultySlots[i][j] == "OTp" or FacultySlots[i][j] == "OTs":
+                    correct = 0
+                    # FacultyExcel.cell(row = 5+i, column = 3+j).fill = PatternFill(fill_type='solid', start_color=ColourValues[3], end_color=ColourValues[3])
+                elif FacultySlots[i][j] == "Sp" or FacultySlots[i][j] == "Ss":
+                    correct = 0
+                    # FacultyExcel.cell(row = 5+i, column = 3+j).fill = PatternFill(fill_type='solid', start_color=ColourValues[4], end_color=ColourValues[4])
+                elif FacultySlots[i][j] == "Op" or FacultySlots[i][j] == "Os":
+                    correct = 0
+                    # FacultyExcel.cell(row = 5+i, column = 3+j).fill = PatternFill(fill_type='solid', start_color=ColourValues[5], end_color=ColourValues[5])
+                elif FacultySlots[i][j] == "COMp" or FacultySlots[i][j] == "COMs":
+                    correct = 0
+                    # FacultyExcel.cell(row = 5+i, column = 3+j).fill = PatternFill(fill_type='solid', start_color=ColourValues[6], end_color=ColourValues[6])
+                elif FacultySlots[i][j] != '':
+                    FacultyExcel.cell(row=5 + i, column=3 + j).fill = PatternFill(fill_type='solid',
+                                                                                  start_color=ColourValues[7],
+                                                                                  end_color=ColourValues[7])
+        wb2.save(FacultyCalendar)
+    upload_file(FacultyCalendar)

@@ -22,6 +22,17 @@ def upload_master_calendar(file_name):
     file1.SetContentFile(file_name)
     file1.Upload({"convert": True})
 
+    folder_name = 'Download'
+
+    folders = drive.ListFile(
+        {'q': "title='" + folder_name + "' and mimeType='application/vnd.google-apps.folder' and trashed=false"}).GetList()
+    for folder in folders:
+        if folder['title'] == folder_name:
+            file2 = drive.CreateFile({'parents': [{'id': folder['id']}]})
+            file2.SetContentFile(file_name)
+            file2.Upload()
+
+
 
 def download_master_calendar():
     """
@@ -42,11 +53,11 @@ def download_master_calendar():
     return file_title
 
 
-def MasterCalendarFunction(InputPath, Initiative, OutMonth):
+def MasterCalendarFunction(SheetName, InputPath, Initiative, OutMonth):
     """Extracting data from the input calender
     which is in the day wise format
     """
-    InputDataframe = pd.read_excel(InputPath, sheet_name='Test_vector')
+    InputDataframe = pd.read_excel(InputPath, sheet_name=SheetName)
     InputDataframe.columns = ['Month', 'Date', 'Day', 'Course Code', 'Module', 'Lead1', 'Lead2', 'Lead3',
                               'Session Slot',
                               'Session Time', 'Comments']
@@ -63,8 +74,8 @@ def MasterCalendarFunction(InputPath, Initiative, OutMonth):
     """Extracting data from the Keys
     sheet of the Master calendar"""
     ExistingMaster = download_master_calendar()
-    KeysDataframe = pd.read_excel(ExistingMaster, sheet_name='Key')
-    KeysDataframe.columns = ["FixedInitiativeTitles", "FixedInitiativeCodes", "FixedInitiativeColourCodes", "VarName4",
+    KeysDataframe = pd.read_excel(InputPath, sheet_name='Key')
+    KeysDataframe.columns = ["FixedInitiativeTitles", "FixedInitiativeCodes", "VarName3", "VarName4",
                              "VarName5", "VarName6", "FixedCourseCodes", "FixedCourseTitles"]
     KeysDataframe = KeysDataframe.drop(["VarName4", "VarName5", "VarName6"], axis=1)
     FixedInitiativeTitles = KeysDataframe['FixedInitiativeTitles']
@@ -318,10 +329,18 @@ def MasterCalendarFunction(InputPath, Initiative, OutMonth):
     """
     Setting colour codes for Initiatives 
     """
+    KeysDataframe = KeysDataframe.drop(["FixedCourseCodes", "FixedCourseTitles"], axis=1)
     KeySheet = WriteExcel["Key"]
+    KeySheet.delete_rows(1, KeySheet.max_row)
+    KeySheet.delete_cols(1, KeySheet.max_column)
+    rows = dataframe_to_rows(KeysDataframe, index=False, header=True)
+    for r_idx, row in enumerate(rows,1):
+        for c_idx, value in enumerate(row,1):
+            KeySheet.cell(row=r_idx, column=c_idx, value=value)
+
     KeyCodes = list(FixedInitiativeTitles)
-    ColourValues = ['003366FF', '00FF0000', '0000FF00', '00800080', '00008080', '00FF99CC', '00808000', '00000080',
-                    '0000FFFF', '00800000', '000000FF', '00008000', '0033CCCC', '00FFCC99', '00333399', '00CC99FF',
+    ColourValues = ['009EE362', '0000C0D0', '00FFD403', '00FF9356', '007E74D4', '00FE82AA', '00B28DFF', '0085E3FF',
+                    '00BFFCC6', '00E7FFAC', '00B5D8D6', '00F6E7E0', '0033CCCC', '00FFCC99', '00333399', '00CC99FF',
                     '00FF00FF', '00FFFF00', '00CCFFFF', '00CCFFCC', '00FFFF99', '0099CCFF']
 
     """
@@ -329,6 +348,9 @@ def MasterCalendarFunction(InputPath, Initiative, OutMonth):
     """
     i = 0
     FixedInitiativeCodes = FixedInitiativeCodes.dropna()
+    heading = KeySheet.cell(row=1,column=3)
+    heading.value = "Initiative Color Code"
+
     for row in KeySheet.iter_rows(min_row=2, min_col=3, max_row=len(FixedInitiativeCodes) + 1, max_col=3):
         for cell in row:
             cell.fill = PatternFill(fill_type='solid',
@@ -352,7 +374,7 @@ def MasterCalendarFunction(InputPath, Initiative, OutMonth):
     FixedInitiativeCodes = FixedInitiativeCodes.dropna()
     InitiativeKey = {}
     for i in range(len(FixedInitiativeTitles)):
-        InitiativeKey[FixedInitiativeTitles[i]] = int(FixedInitiativeCodes[i])
+        InitiativeKey[FixedInitiativeTitles[i]] = (FixedInitiativeCodes[i])
     """Fill colour on session slots"""
     for row in MasterCalendarOutMonth.iter_rows(min_row=4, min_col=8):
         for cell in row:
