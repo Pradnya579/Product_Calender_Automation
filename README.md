@@ -1,4 +1,4 @@
-# Product_Calender_Automation
+# Calender_Automation
 
 ## Requirements for updating Master calendar with input file using standard template
 
